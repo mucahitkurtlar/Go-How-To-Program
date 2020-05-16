@@ -11,6 +11,19 @@ const (
 	screenHeight = 600
 )
 
+func createTextureFromBMP(renderer *sdl.Renderer, fileName string) *sdl.Texture {
+	img, err := sdl.LoadBMP(fileName)
+	if err != nil {
+		panic(fmt.Errorf("Loading %v: %v", fileName, err))
+	}
+	defer img.Free()
+	tex, err := renderer.CreateTextureFromSurface(img)
+	if err != nil {
+		panic(fmt.Errorf("Creating texture %v: %v", fileName, err))
+	}
+	return tex
+}
+
 func main() {
 	if err := sdl.Init(sdl.INIT_EVERYTHING); err != nil {
 		panic(err)
@@ -34,18 +47,27 @@ func main() {
 	}
 	defer renderer.Destroy()
 
-	plr, err := newPlayer(renderer)
-	if err != nil {
-		fmt.Println("Creating player: ", err)
-		return
-	}
+	plr := newPlayer(renderer)
+	/*
+		enemy, err := newBasicEnemy(renderer, screenHeight/2, screenWidth/2)
+		if err != nil {
+			fmt.Println("Creating basic enemy: ", err)
+			return
+		}
+	*/
 
-	enemy, err := newBasicEnemy(renderer, screenHeight / 2, screenWidth / 2)
-	if err != nil {
-		fmt.Println("Creating basic enemy: ", err)
-		return
-	}
+	var enemies []basicEnemy
 
+	for i := 0; i < 5; i++ {
+		for j := 0; j < 3; j++ {
+			x := (float64(i)/5)*screenWidth + (basicEnemySize / 2.0)
+			y := float64(j)*basicEnemySize + (basicEnemySize / 2.0)
+
+			enemy := newBasicEnemy(renderer, x, y)
+			enemies = append(enemies, enemy)
+		}
+	}
+	initBulletPool(renderer)
 	for {
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
 			switch event.(type) {
@@ -55,9 +77,16 @@ func main() {
 		}
 		renderer.SetDrawColor(255, 255, 255, 255)
 		renderer.Clear()
-		enemy.draw(renderer)
+		//enemy.draw(renderer)
+		for _, enemy := range enemies {
+			enemy.draw(renderer)
+		}
 		plr.draw(renderer)
 		plr.update()
+		for _, bul := range bulletPool {
+			bul.draw(renderer)
+			bul.update()
+		}
 		renderer.Present()
 	}
 }
