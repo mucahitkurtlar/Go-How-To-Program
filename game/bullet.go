@@ -1,8 +1,6 @@
 package main
 
 import (
-	"math"
-
 	"github.com/veandco/go-sdl2/sdl"
 )
 
@@ -11,53 +9,43 @@ const (
 	bulletSpeed = 0.8
 )
 
-type bullet struct {
-	tex    *sdl.Texture
-	x, y   float64
-	angle  float64
-	active bool
-}
+func newBullet(renderer *sdl.Renderer) *element {
+	bullet := &element{}
 
-func newBullet(renderer *sdl.Renderer) (b bullet) {
-	b.tex = createTextureFromBMP(renderer, "sprites/player_bullet.bmp")
-	return b
-}
+	sr := newSpriteRenderer(bullet, renderer, "sprites/player_bullet.bmp")
+	bullet.addComponent(sr)
 
-func (b *bullet) draw(renderer *sdl.Renderer) {
-	if !b.active {
-		return
+	mover := newBulletMover(bullet, bulletSpeed)
+	bullet.addComponent(mover)
+
+	col := circle{
+		center: bullet.position,
+		radius: 8,
 	}
 
-	x := b.x - bulletSize/2.0
-	y := b.y - bulletSize/2.0
-	renderer.Copy(b.tex,
-		&sdl.Rect{X: 0, Y: 0, W: bulletSize, H: bulletSize},
-		&sdl.Rect{X: int32(x), Y: int32(y), W: bulletSize, H: bulletSize},
-	)
+	bullet.collosions = append(bullet.collosions, col)
+
+	bullet.active = false
+
+	return bullet
 }
 
-func (b *bullet) update() {
-	b.x += bulletSpeed * math.Cos(b.angle)
-	b.y += bulletSpeed * math.Sin(b.angle)
-	if b.x > screenWidth || b.x < 0 || b.y > screenHeight || b.y < 0 {
-		b.active = false
-	}
-}
-
-var bulletPool []*bullet
+var bulletPool []*element
 
 func initBulletPool(renderer *sdl.Renderer) {
 	for i := 0; i < 30; i++ {
-		b := newBullet(renderer)
-		bulletPool = append(bulletPool, &b)
+		bul := newBullet(renderer)
+		elements = append(elements, bul)
+		bulletPool = append(bulletPool, bul)
 	}
 }
 
-func bulletFromPool() (*bullet, bool) {
-	for _, b := range bulletPool {
-		if !b.active {
-			return b, true
+func bulletFromPool() (*element, bool) {
+	for _, bul := range bulletPool {
+		if !bul.active {
+			return bul, true
 		}
 	}
+
 	return nil, false
 }
