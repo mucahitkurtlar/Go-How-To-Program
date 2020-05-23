@@ -2,14 +2,18 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/veandco/go-sdl2/sdl"
 )
 
 const (
-	screenWidth  = 640
-	screenHeight = 640
+	screenWidth    = 640
+	screenHeight   = 640
+	ticksPerSecond = 30
 )
+
+var delta float64
 
 func textureFromBMP(renderer *sdl.Renderer, filename string) *sdl.Texture {
 	img, err := sdl.LoadBMP(filename)
@@ -59,12 +63,15 @@ func main() {
 				return
 			}
 		}
+		frameStartTime := time.Now()
+
 		renderer.Clear()
 		bcgr.draw(renderer)
-
 		plr.draw(renderer)
 		plr.update()
-
 		renderer.Present()
+		sdl.Delay(2)
+
+		delta = time.Since(frameStartTime).Seconds() * ticksPerSecond
 	}
 }

@@ -9,17 +9,18 @@ import (
 const (
 	playerJumpCooldown = time.Millisecond * 200
 	playerSize         = 32
-	playerSpeed        = 0.2
+	playerSpeed        = 10
 	playerJumpSpeed    = 0.1
 	right              = sdl.FLIP_NONE
 	left               = sdl.FLIP_HORIZONTAL
+	frameRefreshSpeed  = 0.6
 )
 
 type player struct {
 	renderer  *sdl.Renderer
 	x, y      float64
 	tex       *sdl.Texture
-	frame     uint16
+	frame     float64
 	direction sdl.RendererFlip
 	lastJump  time.Time
 	jump      uint16
@@ -54,14 +55,14 @@ func (p *player) update() {
 
 	if keys[sdl.SCANCODE_LEFT] == 1 {
 		if p.x-(playerSize/2.0) > 0 {
-			p.x -= playerSpeed
-			p.frame++
+			p.x -= playerSpeed * delta
+			p.frame += frameRefreshSpeed * delta
 			p.direction = left
 		}
 	} else if keys[sdl.SCANCODE_RIGHT] == 1 {
 		if p.x+(playerSize/2.0) < screenWidth {
-			p.x += playerSpeed
-			p.frame++
+			p.x += playerSpeed * delta
+			p.frame += frameRefreshSpeed * delta
 			p.direction = right
 		}
 	} else {
