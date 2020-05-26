@@ -55,6 +55,7 @@ func main() {
 
 	plr := newPlayer(renderer)
 	bcgr := newBackground(renderer)
+	ter := newTerrain(renderer)
 
 	for {
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
@@ -67,8 +68,14 @@ func main() {
 
 		renderer.Clear()
 		bcgr.draw(renderer)
+		ter.draw(renderer)
 		plr.draw(renderer)
 		plr.update()
+		if checkCollision(plr.rect, ter.rect) {
+			fmt.Println("collision: true")
+		} else {
+			fmt.Println("collision: false")
+		}
 		renderer.Present()
 		sdl.Delay(2)
 
