@@ -24,6 +24,7 @@ type player struct {
 	direction sdl.RendererFlip
 	lastJump  time.Time
 	jump      uint16
+	rect      rectangle
 }
 
 func newPlayer(renderer *sdl.Renderer) (p player) {
@@ -34,6 +35,10 @@ func newPlayer(renderer *sdl.Renderer) (p player) {
 	p.frame = 0
 	p.direction = right
 	p.jump = 0
+	p.rect.x = p.x
+	p.rect.y = p.y
+	p.rect.width = playerSize
+	p.rect.height = playerSize
 	return p
 }
 
@@ -56,12 +61,14 @@ func (p *player) update() {
 	if keys[sdl.SCANCODE_LEFT] == 1 {
 		if p.x-(playerSize/2.0) > 0 {
 			p.x -= playerSpeed * delta
+			p.rect.x = p.x
 			p.frame += frameRefreshSpeed * delta
 			p.direction = left
 		}
 	} else if keys[sdl.SCANCODE_RIGHT] == 1 {
 		if p.x+(playerSize/2.0) < screenWidth {
 			p.x += playerSpeed * delta
+			p.rect.x = p.x
 			p.frame += frameRefreshSpeed * delta
 			p.direction = right
 		}
@@ -76,6 +83,10 @@ func (p *player) update() {
 	}
 	if p.jump > 0 {
 		p.y--
+		p.rect.y = p.y
 		p.jump--
+	} else if !checkCollision(p.rect, rectangle{x: screenWidth / 2, y: screenHeight - terrainSize/2, width: 13 * terrainSize, height: terrainSize}) {
+		p.y++
+		p.rect.y = p.y
 	}
 }
