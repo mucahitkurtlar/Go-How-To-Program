@@ -1,0 +1,154 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+		margin: 0;
+			padding: 0;
+				border: 0;
+					font-size: 100%;
+						font: inherit;
+							vertical-align: baseline;
+						}
+
+.main {
+    width: 740px;
+    height: auto;
+    margin: 30px auto;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+    float: left;
+    background: url("images/wolf.jpg");
+    background-size: cover;
+}
+
+.banner {
+    width: 630px;
+    height: 100px;
+    margin: 0 0 0 10px;
+    float: left;
+    background-color: #012c5a;
+    color: white;
+    text-align: center;
+    font: 18px tahoma;
+    line-height: 100px;
+
+}
+
+.menu {
+    width: 580px;
+    height: 47px;
+    margin: 10px 0 0 0;
+    float: left;
+    background-color: #013f81;
+}
+
+.menu ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.menu li {
+    float: left;
+}
+
+.menu a {
+    display: block;
+    width: 145px;
+    height: 47px;
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    font: 15px tahoma;
+    line-height: 47px;
+}
+
+.menu a:hover {
+    background-color: #0165f5;
+    text-decoration: underline;
+}
+
+.social {
+    width: 150px;
+    height: 47px;
+    margin: 10px 0 0 10px;
+    float: left;
+}
+
+.github {
+    width: 47px;
+    height: 47px;
+    float: left;
+    background: url("images/github.png");
+    background-size: cover;
+}
+
+.instagram {
+    width: 47px;
+    height: 47px;
+    margin: 0 0 0 4px;
+    float: left;
+    background: url("images/instagram.png");
+    background-size: cover;
+}
+
+.youtube {
+    width: 47px;
+    height: 47px;
+    margin: 0 0 0 4px;
+    float: left;
+    background: url("images/youtube0.png");
+    background-size: cover;
+}
+
+.box-one {
+    width: 740px;
+    height: 350px;
+    margin: 10px 0 0 0;
+    float: left;
+    background-color: #0169cd;
+}
+
+.box-two {
+    width: 240px;
+    height: 240px;
+    margin: 10px 0 0 0;
+    float: left;
+    background-color: #4da4f8;
+}
+
+.box-three {
+    width: 240px;
+    height: 240px;
+    margin: 10px 0 0 10px;
+    float: left;
+    background-color: #9ecefb;
+}
+
+.box-four {
+    width: 240px;
+    height: 240px;
+    margin: 10px 0 0 10px;
+    float: left;
+    background-color: #c1e0fc;
+}
+
+.bottom {
+    width: 740px;
+    height: 90px;
+    margin: 10px 0 0 0;
+    float: left;
+    background-color: #c7effc;
+}
